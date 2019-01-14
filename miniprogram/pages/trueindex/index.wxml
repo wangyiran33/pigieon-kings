@@ -1,44 +1,102 @@
 
 <!--index.wxml-->
-<view class="container">
+<view class="page">
 
   <!-- 用户 openid -->
-  <view class="userinfo">
-    <button 
-      open-type="getUserInfo" 
-      bindgetuserinfo="onGetUserInfo"
-      class="userinfo-avatar"
-      style="background-image: url({{avatarUrl}})"
-    ></button>
-    <view>
-      <button class="userinfo-nickname" bindtap="onGetOpenid">这是我的主页</button>
+  <view class="mytop">
+        <view class="page__title">
+        
+          <button 
+            open-type="getUserInfo" 
+            bindgetuserinfo="onGetUserInfo"
+            class="userinfo-avatar"
+            style="background-image: url({{avatarUrl}})"
+          ></button>
+          {{userName}}
+        </view>
+  </view>
+
+  <view class="weui-panel weui-panel_access">
+      <view class="weui-panel__hd">我的群组</view>
+      <view class="weui-panel__bd">
+          <view class="weui-media-box weui-media-box_text">
+              <view class="weui-media-box__title weui-media-box__title_in-text">一群鸽子王
+              </view>
+
+              <view class="weui-media-box__desc">
+                <view class="weui-flex">
+                  <view class="weui-flex__item">
+                    <view class="placeholder">
+                      <button 
+                        open-type="getUserInfo" 
+                        bindgetuserinfo="onGetUserInfo"
+                        class="userinfolist-avatar"
+                        style="background-image: url({{avatarUrl}})"
+                      >
+                      </button>
+                    </view>
+                  </view>
+                  <view class="weui-flex__item">
+                    <view class="placeholder">
+                      <button 
+                        open-type="getUserInfo" 
+                        bindgetuserinfo="onGetUserInfo"
+                        class="userinfolist-avatar"
+                        style="background-image: url({{avatarUrl}})"
+                      >
+                      </button>
+                    </view>
+                  </view>                 
+                  <view class="weui-flex__item">
+                    <view class="placeholder">
+                      <button 
+                        open-type="getUserInfo" 
+                        bindgetuserinfo="onGetUserInfo"
+                        class="userinfolist-avatar"
+                        style="background-image: url({{avatarUrl}})"
+                      >
+                      </button>
+                    </view>
+                  </view>                  
+                  <view class="weui-flex__item">
+                    <view class="placeholder">
+                      <button 
+                        open-type="getUserInfo" 
+                        bindgetuserinfo="onGetUserInfo"
+                        class="userinfolist-avatar"
+                        style="background-image: url({{avatarUrl}})"
+                      >
+                      </button>
+                    </view>
+                  </view>
+                  <view class="weui-flex__item">
+                    <view class="placeholder">
+                      <button 
+                        open-type="getUserInfo" 
+                        bindgetuserinfo="onGetUserInfo"
+                        class="userinfolist-avatar"
+                        style="background-image: url({{avatarUrl}})"
+                      >
+                      </button>
+                    </view>
+                  </view>
+
+                </view>
+              </view>
+          </view>
+          <view class="weui-media-box weui-media-box_text">
+              <view class="weui-media-box__title weui-media-box__title_in-text">标题二</view>
+              <view class="weui-media-box__desc">由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。</view>
+          </view>
+      </view>
+  </view>
+  
+  <view class="page__bd page__bd_spacing" bindtap="onnewGroup">
+    <button class="weui-btn" type="primary">创建群组</button>
+  </view>
+
+  <view class="weui-footer">
+    <view class="weui-footer__text">Copyright © 2019 HotpotMan From Pigeion Kings
     </view>
   </view>
-
-
-  <!-- 上传图片 -->
-  <view class="uploader">
-    <view class="uploader-text" bindtap="doUpload">
-      <text>上传图片</text>
-    </view>
-    <view class="uploader-container" wx:if="{{imgUrl}}">
-      <image class="uploader-image" src="{{imgUrl}}" mode="aspectFit" bindtap="previewImg"></image>
-    </view>
-  </view>
-
-
-  <!-- 操作数据库 -->
-  <view class="uploader">
-    <navigator url="../databaseGuide/databaseGuide" open-type="navigate" class="uploader-text">
-      <text>前端操作数据库</text>
-    </navigator>
-  </view>
-
-  <!-- 新建云函数 -->
-  <view class="uploader">
-    <navigator url="../addFunction/addFunction" open-type="navigate" class="uploader-text">
-      <text>快速新建云函数</text>
-    </navigator>
-  </view>
-
 </view>

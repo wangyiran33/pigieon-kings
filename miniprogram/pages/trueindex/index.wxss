@@ -6,7 +6,13 @@ page {
   flex-direction: column;
   justify-content: flex-start;
 }
-
+.mytop{
+  align-content: center;
+  background-color:#fff;
+  margin-top:0px;
+  position:relative;
+  overflow:hidden;
+  }
 .userinfo, .uploader, .tunnel {
   margin-top: 40rpx;
   height: 140rpx;
@@ -22,6 +28,16 @@ page {
 }
 
 .userinfo-avatar {
+  width: 150rpx;
+  height: 150rpx;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 50%;
+  background-size: cover;
+  background-color: white;
+}
+
+.userinfolist-avatar {
   width: 100rpx;
   height: 100rpx;
   margin: 20rpx;
@@ -134,4 +150,13 @@ page {
   font-size: 24rpx;
   line-height: 36rpx;
   word-break: break-all;
+}
+
+.button-sp-area{
+    margin: 0 auto;
+    padding-top: 15px;
+    width: 60%;
+}
+.mini-btn{
+    margin-right: 5px;
 }

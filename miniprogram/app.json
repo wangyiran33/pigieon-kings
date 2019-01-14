@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/trueindex/index",
+    "pages/newGroup/newGroup",
     "pages/index/index",
     "pages/userConsole/userConsole",
     "pages/storageConsole/storageConsole",
@@ -10,9 +11,9 @@
     "pages/chooseLib/chooseLib"
   ],
   "window": {
-    "backgroundColor": "#F6F6F6",
+    "backgroundColor": "#ffffff",
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#F6F6F6",
+    "navigationBarBackgroundColor": "#ffffff",
     "navigationBarTitleText": "一群鸽子王",
     "navigationBarTextStyle": "black"
   }

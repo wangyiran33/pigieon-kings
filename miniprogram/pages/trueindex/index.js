@@ -5,11 +5,17 @@ Page({
   data: {
     avatarUrl: './user-unlogin.png',
     userInfo: {},
+    userName:'请点击头像获取个人信息',
     logged: false,
     takeSession: false,
     requestResult: ''
   },
 
+  onnewGroup:function(){
+    wx.navigateTo({
+      url: '../newGroup/newGroup',
+    })
+  },
   onLoad: function () {
     if (!wx.cloud) {
       wx.redirectTo({
@@ -27,7 +33,8 @@ Page({
             success: res => {
               this.setData({
                 avatarUrl: res.userInfo.avatarUrl,
-                userInfo: res.userInfo
+                userName: res.userInfo.nickName,
+                userInfo: res.userInfo,
               })
             }
           })
@@ -38,9 +45,27 @@ Page({
 
   onGetUserInfo: function (e) {
     if (!this.logged && e.detail.userInfo) {
+      wx.cloud.callFunction({
+        name: 'login',
+        data: {},
+        success: res => {
+          console.log('[云函数] [login] user openid: ', res.result.openid)
+          app.globalData.openid = res.result.openid
+          wx.navigateTo({
+            url: '../userConsole/userConsole',
+          })
+        },
+        fail: err => {
+          console.error('[云函数] [login] 调用失败', err)
+          wx.navigateTo({
+            url: '../deployFunctions/deployFunctions',
+          })
+        }
+      })
       this.setData({
         logged: true,
         avatarUrl: e.detail.userInfo.avatarUrl,
+        userName: e.detail.userInfo.nickName,
         userInfo: e.detail.userInfo
       })
     }
