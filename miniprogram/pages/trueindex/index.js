@@ -46,20 +46,31 @@ Page({
   onGetUserInfo: function (e) {
     if (!this.logged && e.detail.userInfo) {
       wx.cloud.callFunction({
-        name: 'login',
+        name: 'add_user',
         data: {},
         success: res => {
-          console.log('[云函数] [login] user openid: ', res.result.openid)
-          app.globalData.openid = res.result.openid
-          wx.navigateTo({
-            url: '../userConsole/userConsole',
-          })
+          console.log('[云函数] [add_user] 调用成功')
+          if(res.result.addornot == 1)
+          {
+            const db = wx.cloud.database();
+            db.collection('users').add({
+              data:{
+                userName: e.detail.userInfo.nickName,
+                userGender: e.detail.userInfo.gender,
+                userAvatarUrl: e.detail.userInfo.avatarUrl
+              },
+              success: res => {console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id)},
+              fail: err => {console.error('[数据库] [新增记录] 失败：', err)}
+            })
+          }
+          else
+          {
+            console.log(res.result.addornot)
+            console.log('用户已存在')
+          }
         },
         fail: err => {
-          console.error('[云函数] [login] 调用失败', err)
-          wx.navigateTo({
-            url: '../deployFunctions/deployFunctions',
-          })
+          console.error('[云函数] [add_user] 调用失败', err)
         }
       })
       this.setData({
