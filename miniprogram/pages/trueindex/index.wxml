@@ -20,7 +20,25 @@
     <view class="weui-panel weui-panel_access">
         <view class="weui-panel__hd">我的群组</view>
         <view class="weui-panel__bd">
-            <view class="weui-media-box weui-media-box_text">
+            <view wx:for="{{mygroups}}" wx:key="_id" data-groupNumber = "{{index}}" data-groupId = "{{item._id}}" bindtap="ongroupDetail" class="weui-media-box weui-media-box_text" >
+              <view class="weui-media-box__title weui-media-box__title_in-text">{{item.groupName}}</view>
+              <view class="weui-media-box__desc">
+                <view class="weui-flex">
+                  <view class="weui-flex__item">
+                      <view class="placeholder">
+                        <button 
+                          open-type="getUserInfo" 
+                          bindgetuserinfo="onGetUserInfo"
+                          class="userinfolist-avatar"
+                          style="background-image: url({{avatarUrl}})"
+                        >
+                        </button>
+                      </view>
+                  </view>
+                </view>
+              </view>
+            </view>
+            <view class="weui-media-box weui-media-box_text" >
                 <view class="weui-media-box__title weui-media-box__title_in-text">一群鸽子王
                 </view>
 
@@ -84,10 +102,6 @@
 
                   </view>
                 </view>
-            </view>
-            <view class="weui-media-box weui-media-box_text">
-                <view class="weui-media-box__title weui-media-box__title_in-text">标题二</view>
-                <view class="weui-media-box__desc">由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。</view>
             </view>
         </view>
     </view>

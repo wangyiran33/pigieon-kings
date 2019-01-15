@@ -11,7 +11,7 @@ Page({
     takeSession: false,
     requestResult: '',
     havegroups: 0,
-    mygroups:''
+    mygroups:[]
   },
 
   onnewGroup:function(){
@@ -19,7 +19,14 @@ Page({
       url: '../newGroup/newGroup',
     })
   },
-  
+
+  ongroupDetail:function(e){
+    console.log(e.currentTarget.dataset.groupnumber+"号群组");
+    wx.navigateTo({
+      url: '../groupDetail/groupDetail?id='+e.currentTarget.dataset.groupnumber,
+    })
+  },
+
   onLoad: function () {
     if (!wx.cloud) {
       wx.redirectTo({
@@ -36,6 +43,9 @@ Page({
           // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
           wx.getUserInfo({
             success: res => {
+              app.globalData.avatarUrl = res.userInfo.avatarUrl;
+              app.globalData.userName = res.userInfo.nickName;
+              app.globalData.userInfo = res.userInfo;
               this.setData({
                 avatarUrl: res.userInfo.avatarUrl,
                 userName: res.userInfo.nickName,
@@ -43,26 +53,27 @@ Page({
               })
             }
           })
-          console.log("谁先");
+          
           wx.cloud.callFunction({
             name: 'add_user',
             data: {},
             success: res => {
               console.log('[云函数] [add_user] 调用成功')
               //设置全局openid
-              app.globalData = res.result.openid;
+              app.globalData.openid = res.result.openid;
               const db = wx.cloud.database();
               const _ = db.command
-              db.collection('groups').where({ _openid: app.globalData }).get({
+              db.collection('groups').where({ _openid: app.globalData.openid }).get({
                 success: res => {
-                  this.setData({ mygroups: JSON.stringify(res.data) });
-                  //console.log("length" + this.data.mygroups.length);
-                  if (this.data.mygroups.length != 2) { this.setData({ havegroups: 1 }) }
-                  //this.setData({ groupsNumber: this.data.mygroups.length });
+                  this.setData({ mygroups: res.data });
+                  app.globalData.mygroups = res.data;
+                  if (this.data.mygroups.length != 0) { 
+                    this.setData({ havegroups: 1 });
+                    app.globalData.havegroups = 1; 
+                    }
                   console.log('[数据库] [查询记录] 成功: ', res)
-                  console.log(this.data.mygroups);
-                  console.log(app.globalData);
-                  //console.log(this.data.groupsNumber);
+                  console.log(app.globalData.mygroups);
+                  console.log(app.globalData.openid);
                 },
                 fail: err => {
                   console.error('[数据库] [查询记录] 失败：', err)
@@ -81,6 +92,8 @@ Page({
     
   },
 
+
+
   onGetUserInfo: function (e) {
     if (!this.logged && e.detail.userInfo) {
       wx.cloud.callFunction({
@@ -89,17 +102,18 @@ Page({
         success: res => {
           console.log('[云函数] [add_user] 调用成功')
           //设置全局openid
-          app.globalData = res.result.openid;
+          app.globalData.openid = res.result.openid;
           const db = wx.cloud.database();
-          const _ = db.command
-          db.collection('groups').where({ _openid: app.globalData }).get({
+          const _ = db.command;
+          db.collection('groups').where({ _openid: app.globalData.openid }).get({
             success :res=>{
-              this.setData({ mygroups: JSON.stringify(res.data)});
-              if (this.data.mygroups.length != 2) { this.setData({ havegroups: 1 }) }
-              //this.setData({ groupsNumber: this.data.mygroups.length });
+              this.setData({ mygroups: res.data});
+              app.globalData.mygroups = res.data;
+              if (this.data.mygroups.length != 0) { 
+                this.setData({ havegroups: 1 });
+                app.globalData.havegroups = 1;
+                } 
               console.log('[数据库] [查询记录] 成功: ', res)
-              //console.log(this.data.mygroups);
-              //console.log(this.data.groupsNumber);
             },
             fail :err=>{
               console.error('[数据库] [查询记录] 失败：', err)
@@ -135,7 +149,10 @@ Page({
         avatarUrl: e.detail.userInfo.avatarUrl,
         userName: e.detail.userInfo.nickName,
         userInfo: e.detail.userInfo
-      })
+      });
+      app.globalData.avatarUrl = e.detail.userInfo.avatarUrl;
+      app.globalData.userName = e.detail.userInfo.nickName;
+      app.globalData.userInfo = e.detail.userInfo;
     }
   },
 
@@ -146,7 +163,7 @@ Page({
       data: {},
       success: res => {
         console.log('[云函数] [login] user openid: ', res.result.openid)
-        app.globalData = res.result.openid
+        app.globalData.openid = res.result.openid
         wx.navigateTo({
           url: '../userConsole/userConsole',
         })

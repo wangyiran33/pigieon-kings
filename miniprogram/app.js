@@ -13,5 +13,13 @@ App({
     //this.globalData = "1";
     //console.log("我又来了")
   },
-  globalData: "1",
+  globalData: 
+  {
+    openid: "1",
+    mygroups: [],
+    havegroups: 0,
+    avatarUrl: './user-unlogin.png',
+    userInfo: {},
+    userName: '请点击头像获取个人信息',
+  }
 })
