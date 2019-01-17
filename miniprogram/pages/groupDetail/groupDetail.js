@@ -24,7 +24,7 @@ Page({
       avatarUrl: app.globalData.avatarUrl,
       userName: app.globalData.userName
     })
-    
+    console.log(this.data.thisgroup._id);
   },
 
   /**
@@ -75,7 +75,7 @@ Page({
   onShareAppMessage: function (res) {
     return{
       title: '邀请你加入群',
-      path: '/pages/trueindex/index'
+      path: '/pages/invite/invite?id=' + this.data.thisgroup._id,
     }
 
   }

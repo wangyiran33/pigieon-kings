@@ -22,9 +22,9 @@
         <view class="weui-panel__bd">
             <view wx:for="{{mygroups}}" wx:key="_id" data-groupNumber = "{{index}}" data-groupId = "{{item._id}}" bindtap="ongroupDetail" class="weui-media-box weui-media-box_text" >
               <view class="weui-media-box__title weui-media-box__title_in-text">{{item.groupName}}</view>
-              <view class="weui-media-box__desc">
-                <view class="weui-flex">
-                  <view class="weui-flex__item">
+              <view  class="weui-media-box__desc">
+                <view wx:for="{{mygroupssplit}}" wx:key="id" class="weui-flex">
+                  <view wx:for="{{item}}"class="weui-flex__item">
                       <view class="placeholder">
                         <button 
                           open-type="getUserInfo" 
@@ -36,6 +36,7 @@
                       </view>
                   </view>
                 </view>
+                
               </view>
             </view>
             <view class="weui-media-box weui-media-box_text" >
@@ -107,8 +108,9 @@
     </view>
   </block>
   
-  <view class="page__bd page__bd_spacing" bindtap="onnewGroup">
-    <button class="weui-btn" type="primary">创建新群组</button>
+  <view class="page__bd page__bd_spacing" >
+    <button class="weui-btn" bindtap="onnewGroup" type="primary">创建新群组</button>
+    <button class="weui-btn" bindtap="ontest" type="primary">test</button>
   </view>
 
   <view class="weui-footer">

@@ -1,5 +1,7 @@
 // pages/newGroup/newGroup.js
+const app = getApp()
 Page({
+  
 
   /**
    * 页面的初始数据
@@ -94,6 +96,7 @@ Page({
                 groupName: dtitle,
                 groupDescription: ddescription,
                 groupMembersNumber: 1,
+                groupMembers: [{ "memberopenid": app.globalData.openid, "memberName": app.globalData.userName, "memberavatar": app.globalData.avatarUrl, "memberLevel": 2 }],
               },
               success: res => { console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id) },
               fail: err => { console.error('[数据库] [新增记录] 失败：', err) }

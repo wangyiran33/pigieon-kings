@@ -11,12 +11,20 @@ Page({
     takeSession: false,
     requestResult: '',
     havegroups: 0,
-    mygroups:[]
+    mygroups:[],
+    mygroupsMemberNumber:[],
+    mygroupssplit:[]
   },
 
   onnewGroup:function(){
     wx.navigateTo({
       url: '../newGroup/newGroup',
+    })
+  },
+  
+  ontest: function () {
+    wx.navigateTo({
+      url: '../invite/invite?id=XD4jRsDR1TiNksci',
     })
   },
 
@@ -63,7 +71,7 @@ Page({
               app.globalData.openid = res.result.openid;
               const db = wx.cloud.database();
               const _ = db.command
-              db.collection('groups').where({ _openid: app.globalData.openid }).get({
+              db.collection('groups').where({ groupMembers: { memberopenid: app.globalData.openid } }).get({
                 success: res => {
                   this.setData({ mygroups: res.data });
                   app.globalData.mygroups = res.data;
@@ -72,8 +80,53 @@ Page({
                     app.globalData.havegroups = 1; 
                     }
                   console.log('[数据库] [查询记录] 成功: ', res)
-                  console.log(app.globalData.mygroups);
-                  console.log(app.globalData.openid);
+                  console.log(this.data.mygroups);
+                  //console.log(app.globalData.openid);
+                  for(let i=0;i<this.data.mygroups.length;i++)
+                  {
+                    let tempnumber = this.data.mygroups[i].groupMembersNumber;
+                    let trow = parseInt(tempnumber / 5);
+                    let lastrow = tempnumber - 5 * trow;
+                    let tempmembercount = 0;
+                    let tempthisgroup = [];
+                    console.log("row:"+trow+" last"+lastrow);
+                    this.data.mygroupsMemberNumber.push({"row":trow,"last":lastrow});
+                    app.globalData.mygroupsMemberNumber.push({ "row": trow, "last": lastrow });
+                    console.log(this.data.mygroupsMemberNumber);
+                    for (let j = 0; j < trow; j++) {
+                      let temp = [];
+                      for (let k = 0; k < 5; k++) {
+                        //console.log(this.data.mygroups[i].groupMembers[tempmembercount].memberName)
+                        temp.push({
+                          "name": this.data.mygroups[i].groupMembers[tempmembercount].memberName,
+                          "level": this.data.mygroups[i].groupMembers[tempmembercount].memberLevel,
+                          "avatar": this.data.mygroups[i].groupMembers[tempmembercount].memberavatar,
+                          "openid": this.data.mygroups[i].groupMembers[tempmembercount].memberopenid,
+                        });
+                        tempmembercount += 1;
+                      }
+                      //console.log('temp'+temp)
+                      tempthisgroup.push({"id":j,"members":temp});
+                    }
+                    let temp = [];
+                    for (let l = 0; l < lastrow; l++) {
+                      console.log(this.data.mygroups[i].groupMembers[tempmembercount])
+                      temp.push({
+                        "name": this.data.mygroups[i].groupMembers[tempmembercount].memberName,
+                        "level": this.data.mygroups[i].groupMembers[tempmembercount].memberLevel,
+                        "avatar": this.data.mygroups[i].groupMembers[tempmembercount].memberavatar,
+                        "openid": this.data.mygroups[i].groupMembers[tempmembercount].memberopenid,
+                      });
+                      console.log(temp)
+                      tempmembercount += 1;
+                    }
+                    console.log('hi')
+                    console.log('temp' + temp)
+                    tempthisgroup.push({ "id": trow, "groups": temp });
+                    
+                    this.data.mygroupssplit.push({"groupid":i,"groups":tempthisgroup});
+                  }
+                  console.log(this.data.mygroupssplit);
                 },
                 fail: err => {
                   console.error('[数据库] [查询记录] 失败：', err)
@@ -105,7 +158,7 @@ Page({
           app.globalData.openid = res.result.openid;
           const db = wx.cloud.database();
           const _ = db.command;
-          db.collection('groups').where({ _openid: app.globalData.openid }).get({
+          db.collection('groups').where({ groupMembers: { memberopenid: app.globalData.openid } }).get({
             success :res=>{
               this.setData({ mygroups: res.data});
               app.globalData.mygroups = res.data;
@@ -114,6 +167,47 @@ Page({
                 app.globalData.havegroups = 1;
                 } 
               console.log('[数据库] [查询记录] 成功: ', res)
+              console.log(this.data.mygroups.length);
+              //console.log(app.globalData.openid);
+              for (let i = 0; i < this.data.mygroups.length; i++) {
+                let tempnumber = this.data.mygroups[i].groupMembersNumber;
+                let tempmembercount = 0;
+                let trow = parseInt(tempnumber / 5);
+                let lastrow = tempnumber - 5 * trow;
+                console.log("row:" + trow + " last" + lastrow);
+                this.data.mygroupsMemberNumber.push({ "row": trow, "last": lastrow });
+                app.globalData.mygroupsMemberNumber.push({ "row": trow, "last": lastrow });
+                for(let j=0;j<trow;j++)
+                {
+                  temp = [];
+                  for(let k=0;k<5;k++)
+                  {
+                    temp.push({ 
+                      "name": this.data.mygroups[i].groupMembers[tempmembercount].memberName,
+                      "level": this.data.mygroups[i].groupMembers[tempmembercount].memberLevel,
+                      "avatar": this.data.mygroups[i].groupMembers[tempmembercount].memberavatar,
+                      "openid": this.data.mygroups[i].groupMembers[tempmembercount].memberopenid,
+                    });
+                    tempmembercount += 1;
+                  }
+                  mygroupssplit.push(temp);
+                }
+
+                temp = [];
+                for(let k=0;k<lastrow;k++)
+                {
+                  temp.push({
+                    "name": this.data.mygroups[i].groupMembers[tempmembercount].memberName,
+                    "level": this.data.mygroups[i].groupMembers[tempmembercount].memberLevel,
+                    "avatar": this.data.mygroups[i].groupMembers[tempmembercount].memberavatar,
+                    "openid": this.data.mygroups[i].groupMembers[tempmembercount].memberopenid,
+                  });
+                  tempmembercount += 1;
+                }
+                mygroupssplit.push(temp);
+                console.log(mygroupsplit)
+
+              }
             },
             fail :err=>{
               console.error('[数据库] [查询记录] 失败：', err)

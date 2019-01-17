@@ -9,7 +9,8 @@
     "pages/addFunction/addFunction",
     "pages/deployFunctions/deployFunctions",
     "pages/chooseLib/chooseLib",
-    "pages/groupDetail/groupDetail"
+    "pages/groupDetail/groupDetail",
+    "pages/invite/invite"
   ],
   "window": {
     "backgroundColor": "#ffffff",

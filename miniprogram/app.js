@@ -18,6 +18,7 @@ App({
     openid: "1",
     mygroups: [],
     havegroups: 0,
+    mygroupsMemberNumber: [],
     avatarUrl: './user-unlogin.png',
     userInfo: {},
     userName: '请点击头像获取个人信息',

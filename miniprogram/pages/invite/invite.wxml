@@ -1,0 +1,59 @@
+<!--miniprogram/pages/invite/invite.wxml-->
+<view class="page">
+
+  <!-- 用户 openid -->
+  <view class="mytop">
+        <view class="page__title">
+        
+          <button 
+            open-type="getUserInfo" 
+            bindgetuserinfo="onGetUserInfo"
+            class="userinfo-avatar"
+            style="background-image: url({{avatarUrl}})"
+          ></button>
+          {{userName}}
+        </view>
+  </view>
+
+  <view wx:if="{{existgroup==1}}"class="weui-panel weui-panel_access">
+    <view class="weui-panel__hd">{{inviteInfo}}</view>
+    <view class="weui-panel__bd">
+      <view bindtap="ongroupDetail" class="weui-media-box weui-media-box_text" >
+        <view class="weui-media-box__title weui-media-box__title_in-text">{{thisgroup.groupName}}</view>
+        <view class="weui-media-box__desc">
+          <view class="weui-flex">
+            <view class="weui-flex__item">
+                <view class="placeholder">
+                  <button 
+                    class="userinfolist-avatar"
+                    style="background-image: url({{avatarUrl}})"
+                  >
+                  </button>
+                </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  
+  <view wx:if="{{existgroup==0}}" class="icon-box">
+      <icon type="cancel" size="93"></icon>
+      <view class="icon-box__ctn">
+          <view class="icon-box__title">抱歉</view>
+          <view class="icon-box__desc">这个群组已经被解散，回到首页发现更多操作！</view>
+      </view>
+  </view>
+
+  <view wx:if="{{existgroup==1 || ingroup==0}}" class="page__bd page__bd_spacing" >
+    <button class="weui-btn" type="primary" bindtap="accept">接受邀请</button>
+    <button class="weui-btn" type="default" bindtap="backtoindex">拒绝加入</button>
+  </view>
+
+  <view wx:if="{{existgroup==0 || ingroup==1}}" class="page__bd page__bd_spacing" >
+    <button class="weui-btn" type="primary" bindtap="backtoindex">回到首页</button>
+  </view>
+
+</view>
+

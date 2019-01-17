@@ -1,0 +1,45 @@
+/* miniprogram/pages/invite /invite.wxss */
+page {
+  background: #f6f6f6;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.userinfo-avatar {
+  width: 150rpx;
+  height: 150rpx;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 50%;
+  background-size: cover;
+  background-color: white;
+}
+
+.userinfolist-avatar {
+  width: 100rpx;
+  height: 100rpx;
+  margin: 20rpx;
+  border-radius: 50%;
+  background-size: cover;
+  background-color: white;
+}
+.mytop{
+  align-content: center;
+  background-color:#fff;
+  margin-top:0px;
+  position:relative;
+  overflow:hidden;
+  }
+
+.icon-box{
+    margin-top: 25px;
+    display: flex;
+    align-items: center;
+}
+.icon-box__ctn{
+    flex-shrink: 100;
+}
+icon{
+    margin-right: 13px;
+}
